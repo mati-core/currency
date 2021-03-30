@@ -22,7 +22,8 @@
 		"mati-core/datagrid": "^1.0",
 		"mati-core/form": "^1.0",
 		"mati-core/user": "^1.0",
-		"mati-core/constant": "^1.0.1",
+		"mati-core/constant": "^1.0",
+		"mati-core/cms": "^1.0",
 		"tracy/tracy": "^2.3"
 	},
 	"require-dev": {

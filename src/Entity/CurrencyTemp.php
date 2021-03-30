@@ -334,7 +334,7 @@ class CurrencyTemp implements ICurrency
 	 */
 	public function getModifiedRate(float $realRate): float
 	{
-		if ($this->getRateModifyOperator() === null || $this->getRateModifyValue() === 0) {
+		if ($this->getRateModifyOperator() === null || $this->getRateModifyValue() === 0.0) {
 			return $realRate;
 		}
 
