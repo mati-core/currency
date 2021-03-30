@@ -10,23 +10,27 @@ parameters:
 				position: 2
 	menu:
 		cmsMainSetting:
-			mainSetting:
-				title: cms.menu.settings.mainSetting
-				route: ':Admin:Setting:default'
-				icon: 'fas fa-cogs'
-				position: 0
-				rights:
-					- cms__settings
-
+			items:
+				currencies:
+					title: currency.menu.title
+					route: ':Admin:Currency:default'
+					icon: 'fas fa-coins'
+					position: 0
+					rights:
+						- cms__settings__units
 services:
 	- MatiCore\Currency\CurrencyManager
 	- MatiCore\Currency\CurrencyManagerAccessor
 	- MatiCore\Currency\CurrencyCommand
-	- MatiCore\Currency\CurrencyNavBlockControl
+	- MatiCore\Currency\CurrencyNavBlockControl(%currency.navBar%)
 	- MatiCore\Currency\Filter\CurrencyLatteFilter
 	navControl:
 		setup:
-			- addBlock(@MatiCore\Currency\CurrencyNavBlockControl, %currency%.%navBar%.%position%)
+			- addBlock(@MatiCore\Currency\CurrencyNavBlockControl, %currency.navBar.position%)
 	nette.latteFactory:
 		setup:
 			- addFilter(price, @MatiCore\Currency\Filter\CurrencyLatteFilter)
+
+orm.annotations:
+	paths:
+		MatiCore\Currency: %appDir%/../vendor/mati-core/currency/src/Entity

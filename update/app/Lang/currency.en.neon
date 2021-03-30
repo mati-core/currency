@@ -1,2 +1,21 @@
 menu:
-	title: Currency
+	title: Currencies
+
+page:
+	title: Currencies
+	titleNew: New currency
+	titleDetail: Currency
+	noitems: No currencies in list...
+	updateDate: Update date from ČNB
+	list: Currency list
+	rateCnb: Rate ČNB
+	rateCnbModify: ČNB rate modify
+	rate: Rate
+	priceFormat: Price format
+	updateCNB: Update from ČNB
+	modifySize: Modify size
+	thousandDelimeter: Thousand delimeter
+	decimalDelimeter: Decimal delimeter
+	decimalCount: Decimal digit count
+	schema: Schema
+	symbol: Symbol

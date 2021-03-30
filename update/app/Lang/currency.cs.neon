@@ -1,2 +1,21 @@
 menu:
 	title: Měny
+
+page:
+	title: Měny
+	titleNew: Nová měna
+	titleDetail: Měna
+	noitems: Žádné měny v seznamu...
+	updateDate: Datum aktualizace z ČNB
+	list: Seznam měn
+	rateCnb: Kurz ČNB
+	rateCnbModify: Modifikace kurzu ČNB
+	rate: Kurz
+	priceFormat: Formát zápisu ceny
+	updateCNB: Aktualizovat z ČNB
+	modifySize: Velikost modifikace
+	thousandDelimeter: Oddělovač tisíců
+	decimalDelimeter: Oddělovač desetinných čísel
+	decimalCount: Počet desetinný míst
+	schema: Schéma
+	symbol: Symbol

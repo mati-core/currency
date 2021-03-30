@@ -25,17 +25,25 @@ class CurrencyNavBlockControl extends NavBlockControl
 	private string $blockName = 'currency';
 
 	/**
+	 * @var array 
+	 */
+	private array $config;
+
+	/**
 	 * @var ConstantManagerAccessor
 	 */
 	private ConstantManagerAccessor $constant;
 
 	/**
 	 * CurrencyNavBlockControl constructor.
+	 * @param array $config
 	 * @param ConstantManagerAccessor $constant
 	 */
-	public function __construct(ConstantManagerAccessor $constant)
+	public function __construct(array $config, ConstantManagerAccessor $constant)
 	{
+		$this->config = $config;
 		$this->constant = $constant;
+		bdump($config);
 	}
 
 	/**
@@ -52,12 +60,14 @@ class CurrencyNavBlockControl extends NavBlockControl
 
 		$show = false;
 		if ($presenter !== null) {
-			$show = $presenter->checkUserRight('page__nav') && $presenter->checkUserRight('page__nav__currency');
+			$show = $presenter->checkAccess('page__nav') && $presenter->checkAccess('page__nav__currency');
 		}
 
 		$template = $this->template;
 		$template->setFile(__DIR__ . '/default.latte');
 		$template->show = $show;
+		$template->showCnb = (bool) $this->config['cnb']['display'];
+		$template->showCsob = (bool) $this->config['csob']['display'];
 		$template->render();
 	}
 

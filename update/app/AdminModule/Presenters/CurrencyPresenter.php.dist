@@ -8,7 +8,7 @@ namespace App\AdminModule\Presenters;
  * Class CurrencyPresenter
  * @package App\AdminModule\Presenters
  */
-class CurrencyPresenter extends CurrencyInncerPackagePresenter
+class CurrencyPresenter extends CurrencyInnerPackagePresenter
 {
 
 }

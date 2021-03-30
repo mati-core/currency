@@ -1,5 +1,9 @@
 {block title}
-	Měny
+	{_currency.page.title}
+{/block}
+
+{block pageTitle}
+	<h1>{_currency.page.title}</h1>
 {/block}
 
 {block breadcrumb}
@@ -9,13 +13,8 @@
 				<i class="fas fa-tachometer-alt"></i>
 			</a>
 		</li>
-		<li class="breadcrumb-item">
-			<a n:href="SettingApp:default">
-				<i class="fas fa-wrench"></i> Nastavení
-			</a>
-		</li>
 		<li class="breadcrumb-item active">
-			<i class="fas fa-coins"></i> Měny
+			<i class="fas fa-coins"></i> {_currency.page.title}
 		</li>
 	</ol>
 {/block}
@@ -27,151 +26,120 @@
 
 {block content}
 	<!-- Main content -->
-	<section class="content">
-		<div class="container-fluid">
-			<!-- Small boxes (Stat box) -->
-            {snippet flashes}
-				<div n:foreach="$flashes as $msg" class="row">
-					<div class="col-lg-12">
-                        {if $msg->type === 'success'}
-							<div class="alert alert-dismissible alert-success">
-								<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-								<h5><i class="icon fas fa-check"></i> Hotovo!</h5>
-                                {$msg->message}
-							</div>
-                        {elseif $msg->type === 'warning'}
-							<div class="alert alert-dismissible alert-warning">
-								<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-								<h5><i class="icon fas fa-warning"></i> Pozor!</h5>
-                                {$msg->message}
-							</div>
-                        {elseif $msg->type === 'danger' || $msg->type === 'error'}
-							<div class="alert alert-dismissible alert-danger">
-								<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-								<h5><i class="icon fas fa-ban"></i> Chyba!</h5>
-                                {$msg->message}
-							</div>
-                        {else}
-							<div class="alert alert-dismissible alert-info">
-								<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-								<h5><i class="icon fas fa-info"></i> Upozornění!</h5>
-                                {$msg->message}
-							</div>
-                        {/if}
-					</div>
-				</div>
-            {/snippet}
-
-			<div class="row">
-				<div class="col-12 mb-3 text-right">
-					<a n:if="count($currencies) === 0" n:href="install!" class="btn btn-sm btn-success">
-						<i class="fas fa-exclamation-circle"></i>&nbsp;Instalovat
-					</a>
-					<a n:href="update!" class="btn btn-sm btn-info ajax">
-						<i class="fas fa-sync"></i>&nbsp;Aktualizovat kurz ČNB
-					</a>
-					<a n:href=":Admin:Currency:create" class="btn btn-sm btn-primary">
-						<i class="fas fa-plus"></i>&nbsp;Přidat
-					</a>
-				</div>
+	<div class="container-fluid">
+		<!-- Small boxes (Stat box) -->
+		<div class="row">
+			<div class="col-12 mb-3 text-right">
+				<a n:if="count($currencies) === 0" n:href="install!" class="btn btn-sm btn-success">
+					<i class="fas fa-exclamation-circle"></i>&nbsp;{_cms.main.install}
+				</a>
+				<a n:href="update!" class="btn btn-sm btn-info ajax">
+					<i class="fas fa-sync"></i>&nbsp;{_currency.page.updateCNB}
+				</a>
+				<a n:href=":Admin:Currency:create" class="btn btn-sm btn-primary">
+					<i class="fas fa-plus"></i>&nbsp;{_cms.main.add}
+				</a>
 			</div>
-
-			<div class="row" id="app">
-				<div class="col-12">
-
-					<!-- Default box -->
-					<div class="card">
-						<div class="card-header">
-							<h3 class="card-title">Seznam měn</h3>
-						</div>
-						<div class="card-body p-0" n:snippet="currency-list">
-							<table class="table table-striped">
-								<thead>
-								<tr>
-									<th>
-										Název
-									</th>
-									<th>
-										ISO
-									</th>
-									<th>
-										Datum aktualizace z ČNB
-									</th>
-									<th>
-										Kurz ČNB
-									</th>
-									<th>
-										Kurz
-									</th>
-									<th width="20"></th>
-									<th width="180">
-										Formát zápisu ceny
-									</th>
-									<th class="text-right">
-									</th>
-								</tr>
-								</thead>
-								<tbody>
-                                {if count($currencies) > 0}
-									<tr n:foreach="$currencies as $currency">
-										<td>
-											<a n:href="Currency:detail, id => $currency->getId()">
-                                                {$currency->getName()}
-											</a>
-										</td>
-										<td>
-                                            {$currency->getCode()}
-										</td>
-										<td>
-                                            {$currency->getLastUpdate() === null ? 'Nikdy' : $currency->getLastUpdate()->format('Y-m-d H:i:s')}
-										</td>
-										<td class="text-right">
-                                            {$currency->getRealRateFormated()}
-										</td>
-										<td n:class="$currency->isRateModified() ? text-danger : text-success, text-right">
-                                            {$currency->getRateFormated()}
-										</td>
-										<td>
-											<a n:if="$currency->isRateLock() === true" n:href="lock!, id => $currency->getId()" class="ajax">
-												<i class="fas fa-lock text-danger"></i>
-											</a>
-											<a n:if="$currency->isRateLock() === false" n:href="lock!, id => $currency->getId()" class="ajax">
-												<i class="fas fa-lock-open text-success"></i>
-											</a>
-										</td>
-										<td class="text-right">
-											{$currency->getFormatExample()|noescape}
-										</td>
-										<td class="project-actions text-right">
-											<a n:if="$currency->isDefault()" href="#" class="btn btn-xs btn-outline-success">
-												<i class="fas fa-home"></i> Výchozí
-											</a>
-											<a n:class="$currency->isActive() ? btn-success : btn-outline-danger, btn, btn-xs" n:href="active!, id => $currency->getId()">
-												{if $currency->isActive()}&nbsp;Aktivní&nbsp;{else}Neaktivní{/if}
-											</a>
-											<a class="btn btn-info btn-xs" n:href="detail, id => $currency->getId()">
-												<i class="fas fa-pencil-alt fa-fw"></i> Upravit
-											</a>
-											<btn-delete redirect="{plink 'delete!', 'id' => $currency->getId()}"></btn-delete>
-										</td>
-									</tr>
-                                {else}
-									<tr>
-										<td colspan="5" class="text-center">Žádné měny v seznamu</td>
-									</tr>
-                                {/if}
-								</tbody>
-							</table>
-						</div>
-						<!-- /.card-body -->
-					</div>
-					<!-- /.card -->
-
-				</div>
-			</div>
-			<!-- /.row -->
 		</div>
-		<!-- /.container-fluid -->
-	</section>
-	<!-- /.content -->
+
+		<div class="row" id="app">
+			<div class="col-12">
+
+				<!-- Default box -->
+				<div class="card">
+					<div class="card-header">
+						<h3 class="card-title">{_currency.page.list}</h3>
+					</div>
+					<div class="card-body p-0" n:snippet="currency-list">
+						<table class="table table-striped">
+							<thead>
+							<tr>
+								<th>
+									{_cms.main.name}
+								</th>
+								<th>
+									ISO
+								</th>
+								<th>
+									{_currency.page.updateDate}
+								</th>
+								<th>
+									{_currency.page.rateCnb}
+								</th>
+								<th>
+									{_currency.page.rate}
+								</th>
+								<th width="20"></th>
+								<th width="180">
+									{_currency.page.priceFormat}
+								</th>
+								<th class="text-right">
+								</th>
+							</tr>
+							</thead>
+							<tbody>
+							{if count($currencies) > 0}
+								<tr n:foreach="$currencies as $currency">
+									<td>
+										<a n:href="Currency:detail, id => $currency->getId()">
+											{$currency->getName()}
+										</a>
+									</td>
+									<td>
+										{$currency->getCode()}
+									</td>
+									<td>
+										{$currency->getLastUpdate() === null ? 'Nikdy' : $currency->getLastUpdate()->format('Y-m-d H:i:s')}
+									</td>
+									<td class="text-right">
+										{$currency->getRealRateFormatted()}
+									</td>
+									<td n:class="$currency->isRateModified() ? text-danger : text-success, text-right">
+										{$currency->getRateFormatted()}
+									</td>
+									<td>
+										<a n:if="$currency->isRateLock() === true" n:href="lock!, id => $currency->getId()"
+												class="ajax">
+											<i class="fas fa-lock text-danger"></i>
+										</a>
+										<a n:if="$currency->isRateLock() === false" n:href="lock!, id => $currency->getId()"
+												class="ajax">
+											<i class="fas fa-lock-open text-success"></i>
+										</a>
+									</td>
+									<td class="text-right">
+										{$currency->getFormatExample()|noescape}
+									</td>
+									<td class="project-actions text-right">
+										<a n:if="$currency->isDefault()" href="#"
+																		 class="btn btn-xs btn-outline-success">
+											<i class="fas fa-home"></i>
+										</a>
+										<a n:class="$currency->isActive() ? btn-success : btn-outline-danger, btn, btn-xs" n:href="active!, id => $currency->getId()">
+											{if $currency->isActive()}&nbsp;{_cms.main.active}&nbsp;{else}{_cms.main.inactive}{/if}
+										</a>
+										<a class="btn btn-warning btn-xs" n:href="detail, id => $currency->getId()">
+											<i class="fas fa-pencil-alt fa-fw"></i>
+										</a>
+										<btn-delete
+												redirect="{plink 'delete!', 'id' => $currency->getId()}"></btn-delete>
+									</td>
+								</tr>
+							{else}
+								<tr>
+									<td colspan="5" class="text-center">{_currency.page.noitems}</td>
+								</tr>
+							{/if}
+							</tbody>
+						</table>
+					</div>
+					<!-- /.card-body -->
+				</div>
+				<!-- /.card -->
+
+			</div>
+		</div>
+		<!-- /.row -->
+	</div>
+	<!-- /.container-fluid -->
 {/block}

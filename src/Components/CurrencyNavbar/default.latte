@@ -1,17 +1,17 @@
 {if $show === true}
 	{cache expire => '2 hours', tags => ['currencyNav']}
-		<li class="nav-item">
+		<li n:if="$showCnb === true" class="nav-item">
 			<a class="nav-link"
 			   href="https://www.cnb.cz/cs/financni-trhy/devizovy-trh/kurzy-devizoveho-trhu/kurzy-devizoveho-trhu/"
 			   target="_blank">
-				<img src="/img/logo/cnb_logo.png" alt="ČNB" style="height: 75%;" class="mr-1">
+				<img src="/assets/cms/img/currency/cnb.png" alt="ČNB" style="height: 75%;" class="mr-1">
 				{$control->getCnbData()|noescape}
 			</a>
 		</li>
-		<li class="nav-item">
+		<li n:if="$showCsob === true" class="nav-item">
 			<a class="nav-link"
 			   href="https://www.csob.cz/portal/lide/kurzovni-listek" target="_blank">
-				<img src="/img/logo/csob.ico" alt="ČSOB" style="height: 75%;" class="mr-1">
+				<img src="/assets/cms/img/currency/csob.ico" alt="ČSOB" style="height: 75%;" class="mr-1">
 				{$control->getCsobData()|noescape}
 			</a>
 		</li>

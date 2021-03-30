@@ -1,5 +1,9 @@
 {block title}
-	Měna - {$currency->getName()}
+	{_currency.page.titleDetail} - {$currency->getName()}
+{/block}
+
+{block pageTitle}
+	<h1>{_currency.page.titleDetail} - {$currency->getName()}</h1>
 {/block}
 
 {block breadcrumb}
@@ -10,13 +14,8 @@
 			</a>
 		</li>
 		<li class="breadcrumb-item">
-			<a n:href="SettingApp:default">
-				<i class="fas fa-wrench"></i> Nastavení
-			</a>
-		</li>
-		<li class="breadcrumb-item">
 			<a n:href="Currency:default">
-				Měny
+				{_currency.page.title}
 			</a>
 		</li>
 		<li class="breadcrumb-item active">
@@ -24,129 +23,91 @@
 		</li>
 	</ol>
 {/block}
-
 {block content}
-	<!-- Main content -->
-	<section class="content">
-		<div class="container-fluid">
-			<!-- Small boxes (Stat box) -->
-            {snippet flashes}
-				<div n:foreach="$flashes as $msg" class="row">
-					<div class="col-lg-12">
-                        {if $msg->type === 'success'}
-							<div class="alert alert-dismissible alert-success">
-								<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-								<h5><i class="icon fas fa-check"></i> Hotovo!</h5>
-                                {$msg->message}
-							</div>
-                        {elseif $msg->type === 'warning'}
-							<div class="alert alert-dismissible alert-warning">
-								<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-								<h5><i class="icon fas fa-warning"></i> Pozor!</h5>
-                                {$msg->message}
-							</div>
-                        {elseif $msg->type === 'danger' || $msg->type === 'error'}
-							<div class="alert alert-dismissible alert-danger">
-								<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-								<h5><i class="icon fas fa-ban"></i> Chyba!</h5>
-                                {$msg->message}
-							</div>
-                        {else}
-							<div class="alert alert-dismissible alert-info">
-								<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-								<h5><i class="icon fas fa-info"></i> Upozornění!</h5>
-                                {$msg->message}
-							</div>
-                        {/if}
-					</div>
+	<div class="container-fluid">
+		<form n:name="editForm" class="ajax">
+
+			<div class="row">
+				<div class="col-12 mb-3 text-right">
+					<a n:href="default" class="btn btn-sm btn-secondary">
+						<i class="fas fa-reply"></i>&nbsp;{_cms.main.back}
+					</a>
+					<button n:name="submit" class="btn btn-sm btn-success">
+						<i class="fas fa-save"></i>&nbsp;{_cms.main.save}
+					</button>
 				</div>
-            {/snippet}
+			</div>
 
-			<form n:name="editForm" class="ajax">
+			<div class="row">
+				<div class="col-12">
 
-				<div class="row">
-					<div class="col-12 mb-3 text-right">
-						<a n:href="default" class="btn btn-sm btn-secondary">
-							<i class="fas fa-reply"></i>&nbsp;Zpět
-						</a>
-						<button n:name="submit" class="btn btn-sm btn-success">
-							<i class="fas fa-save"></i>&nbsp;Uložit
-						</button>
-					</div>
-				</div>
-
-				<div class="row">
-					<div class="col-12">
-
-						<!-- Default box -->
-						<div class="card">
-							<div class="card-header">
-								<h3 class="card-title">Měna - {$currency->getName()}</h3>
-							</div>
-							<div class="card-body">
-								<div class="row">
-									<div class="col-lg-6 col-12">
-										<div class="form-group">
-											<label n:name="name">Název</label>
-											<input n:name="name" class="form-control">
-										</div>
-										<div class="form-group">
-											<label n:name="code">ISO kód</label>
-											<input n:name="code" class="form-control">
-										</div>
-										<div class="form-group">
-											<label n:name="symbol">Symbol</label>
-											<input n:name="symbol" class="form-control">
-										</div>
-										<div class="form-group">
-											<label n:name="thousandSeparator">Oddělovač tisíců</label>
-											<input n:name="thousandSeparator" class="form-control">
-										</div>
-										<div class="form-group">
-											<label n:name="decimalSeparator">Desetinný oddělovat</label>
-											<input n:name="decimalSeparator" class="form-control">
-										</div>
-										<div class="form-group">
-											<label n:name="decimalPrecision">Počet desetinných míst</label>
-											<input n:name="decimalPrecision" class="form-control">
-										</div>
-										<div class="form-group">
-											<label n:name="schema">Schéma</label>
-											<input n:name="schema" class="form-control">
-										</div>
+					<!-- Default box -->
+					<div class="card">
+						<div class="card-header">
+							<h3 class="card-title">{_currency.page.titleDetail} - {$currency->getName()}</h3>
+						</div>
+						<div class="card-body">
+							<div class="row">
+								<div class="col-lg-6 col-12">
+									<div class="form-group">
+										<label n:name="name">{_cms.main.name}</label>
+										<input n:name="name" class="form-control">
 									</div>
-									<div class="col-lg-6 col-12">
-										<div class="form-group">
-											<label for="realRate">Kurz ČNB</label>
-											<input name="realRate" value="{$currency->getRealRate()}"
-											       class="form-control" disabled>
-										</div>
-										<div class="form-group">
-											<label n:name="rate">Kurz</label>
-											<input n:name="rate" class="form-control">
-										</div>
-										<div class="form-group">
-											<label n:name="modifyOperator">Modifikace kurzu ČNB</label>
-											<select n:name="modifyOperator" class="form-control"></select>
-										</div>
-										<div class="form-group">
-											<label n:name="modifyValue">Velikost modifikace</label>
-											<input n:name="modifyValue" class="form-control">
-										</div>
+									<div class="form-group">
+										<label n:name="code">ISO</label>
+										<input n:name="code" class="form-control">
+									</div>
+									<div class="form-group">
+										<label n:name="symbol">{_currency.page.symbol}</label>
+										<input n:name="symbol" class="form-control">
+									</div>
+									<div class="form-group">
+										<label n:name="thousandSeparator">{_currency.page.thousandDelimeter}</label>
+										<input n:name="thousandSeparator" class="form-control">
+									</div>
+									<div class="form-group">
+										<label n:name="decimalSeparator">{_currency.page.decimalDelimeter}</label>
+										<input n:name="decimalSeparator" class="form-control">
+									</div>
+									<div class="form-group">
+										<label n:name="decimalPrecision">{_currency.page.decimalCount}</label>
+										<input n:name="decimalPrecision" class="form-control">
+									</div>
+									<div class="form-group">
+										<label n:name="schema">{_currency.page.schema}</label>
+										<input n:name="schema" class="form-control">
+									</div>
+								</div>
+								<div class="col-lg-6 col-12">
+									<div class="form-group">
+										<label for="realRate">{_currency.page.rateCnb}</label>
+										<input name="realRate" value="-"
+											   class="form-control" disabled>
+									</div>
+									<div class="form-group">
+										<label n:name="rate">{_currency.page.rate}</label>
+										<input n:name="rate" class="form-control">
+									</div>
+									<div class="form-group">
+										<label n:name="modifyOperator">{_currency.page.rateCnbModify}</label>
+										<select n:name="modifyOperator" class="form-control"></select>
+									</div>
+									<div class="form-group">
+										<label n:name="modifyValue">{_currency.page.modifySize}</label>
+										<input n:name="modifyValue" class="form-control">
 									</div>
 								</div>
 							</div>
-							<!-- /.card-body -->
 						</div>
-						<!-- /.card -->
-
+						<!-- /.card-body -->
 					</div>
-				</div>
-				<!-- /.row -->
+					<!-- /.card -->
 
-			</form>
-		</div>
-		<!-- /.container-fluid -->
-	</section>
-	<!-- /.content -->
+				</div>
+			</div>
+			<!-- /.row -->
+
+		</form>
+	</div>
+	<!-- /.container-fluid -->
 {/block}
