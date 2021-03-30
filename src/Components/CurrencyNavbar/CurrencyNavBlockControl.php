@@ -91,7 +91,7 @@ class CurrencyNavBlockControl extends NavBlockControl
 	}
 
 	/**
-	 * @return array<string, array<int, float>>
+	 * @return array<int, float>
 	 * @throws ConstantException
 	 * @throws JsonException
 	 */
@@ -100,10 +100,7 @@ class CurrencyNavBlockControl extends NavBlockControl
 		$data = $this->constant->get()->get('cnb_kurz');
 
 		if ($data === null) {
-			return [
-				'buy' => [0.0, 0.0],
-				'sell' => [0.0, 0.0],
-			];
+			return [0.0, 0.0];
 		}
 
 		return Json::decode($data, Json::FORCE_ARRAY);
