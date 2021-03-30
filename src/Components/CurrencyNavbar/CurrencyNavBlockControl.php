@@ -72,7 +72,7 @@ class CurrencyNavBlockControl extends NavBlockControl
 	}
 
 	/**
-	 * @return float[][]
+	 * @return array<float>
 	 * @throws JsonException
 	 * @throws ConstantException
 	 */
@@ -91,7 +91,7 @@ class CurrencyNavBlockControl extends NavBlockControl
 	}
 
 	/**
-	 * @return float[][]
+	 * @return array<float>
 	 * @throws ConstantException
 	 * @throws JsonException
 	 */
@@ -119,10 +119,6 @@ class CurrencyNavBlockControl extends NavBlockControl
 
 			if (
 				!isset($data['buy'][0], $data['buy'][1], $data['sell'][0], $data['sell'][1])
-				|| $data['buy'][0] === null
-				|| $data['buy'][1] === null
-				|| $data['sell'][0] === null
-				|| $data['sell'][1] === null
 				|| (float) $data['buy'][0] === 0.0
 				|| (float) $data['buy'][1] === 0.0
 				|| (float) $data['sell'][0] === 0.0
@@ -172,8 +168,6 @@ class CurrencyNavBlockControl extends NavBlockControl
 
 			if (
 				!isset($data[0], $data[1])
-				|| $data[0] === null
-				|| $data[1] === null
 				|| (float) $data[0] === 0
 				|| (float) $data[1] === 0
 			) {
