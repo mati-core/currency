@@ -1,0 +1,32 @@
+parameters:
+	currency:
+		navBar:
+			position: 100
+			cnb:
+				display: true
+				position: 1
+			csob:
+				display: false
+				position: 2
+	menu:
+		cmsMainSetting:
+			mainSetting:
+				title: cms.menu.settings.mainSetting
+				route: ':Admin:Setting:default'
+				icon: 'fas fa-cogs'
+				position: 0
+				rights:
+					- cms__settings
+
+services:
+	- MatiCore\Currency\CurrencyManager
+	- MatiCore\Currency\CurrencyManagerAccessor
+	- MatiCore\Currency\CurrencyCommand
+	- MatiCore\Currency\CurrencyNavBlockControl
+	- MatiCore\Currency\Filter\CurrencyLatteFilter
+	navControl:
+		setup:
+			- addBlock(@MatiCore\Currency\CurrencyNavBlockControl, %currency%.%navBar%.%position%)
+	nette.latteFactory:
+		setup:
+			- addFilter(price, @MatiCore\Currency\Filter\CurrencyLatteFilter)

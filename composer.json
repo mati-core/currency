@@ -1,0 +1,47 @@
+{
+	"name": "mati-core/currency",
+	"license": "MIT",
+	"description": "Currency module for mati-core",
+	"homepage": "https://github.com/mati-core/currency",
+	"authors": [
+		{
+			"name": "Martin Olmr",
+			"homepage": "https://martinolmr.cz"
+		}
+	],
+	"require": {
+		"php": ">=8.0",
+		"nette/application": "^3.0",
+		"nette/utils": "^3.0",
+		"nette/neon": "^3.0",
+		"nette/di": "^3.0",
+		"nette/bootstrap": "^3.0",
+		"baraja-core/package-manager": "~2.0",
+		"baraja-core/doctrine": "~3.0",
+		"contributte/translation": "^0.8.3",
+		"mati-core/datagrid": "^1.0",
+		"mati-core/form": "^1.0",
+		"mati-core/user": "^1.0",
+		"mati-core/constant": "^1.0.1",
+		"tracy/tracy": "^2.3"
+	},
+	"require-dev": {
+		"roave/security-advisories": "dev-master"
+		,
+		"nette/tester": "~2.0",
+		"phpstan/phpstan": "^0.12",
+		"phpstan/phpstan-nette": "^0.12.6"
+	},
+	"autoload": {
+		"classmap": [
+			"src/"
+		]
+	},
+	"minimum-stability": "stable",
+	"scripts": {
+		"phpstan": [
+			"vendor/bin/phpstan analyse src -c phpstan.neon --level 6 --no-progress"
+		],
+		"tester": "tester tests -s"
+	}
+}
