@@ -43,7 +43,6 @@ class CurrencyNavBlockControl extends NavBlockControl
 	{
 		$this->config = $config;
 		$this->constant = $constant;
-		bdump($config);
 	}
 
 	/**
