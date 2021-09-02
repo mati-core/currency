@@ -144,7 +144,7 @@ class CurrencyManager
 
 					$entity->setLastUpdate(DateTime::from('NOW'));
 
-					$this->entityManager->flush($entity);
+					$this->entityManager->getUnitOfWork()->commit($entity);
 				} catch (NoResultException|NonUniqueResultException $e) {
 
 				}

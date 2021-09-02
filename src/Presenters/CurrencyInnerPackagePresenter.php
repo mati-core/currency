@@ -100,7 +100,7 @@ class CurrencyInnerPackagePresenter extends BaseAdminPresenter
 			$currency = $this->currencyManager->get()->getCurrencyById($id);
 			$currency->setRateLock(!$currency->isRateLock());
 
-			$this->entityManager->flush($currency);
+			$this->entityManager->getUnitOfWork()->commit($currency);
 		} catch (NoResultException|NonUniqueResultException $e) {
 			$this->flashMessage('Požadovaná měna neexistuje.', 'error');
 		} catch (EntityManagerException $e) {
@@ -134,7 +134,7 @@ class CurrencyInnerPackagePresenter extends BaseAdminPresenter
 			$currency = $this->currencyManager->get()->getCurrencyById($id);
 			$currency->setActive(!$currency->isActive());
 
-			$this->entityManager->flush($currency);
+			$this->entityManager->getUnitOfWork()->commit($currency);
 		} catch (NoResultException|NonUniqueResultException $e) {
 			$this->flashMessage('Požadovaná měna neexistuje.', 'error');
 		} catch (EntityManagerException $e) {
@@ -211,7 +211,7 @@ class CurrencyInnerPackagePresenter extends BaseAdminPresenter
 				$currency->setRateModifyValue((float) str_replace(',', '.', $values->modifyValue));
 				$currency->setModifiedRate();
 
-				$this->entityManager->persist($currency)->flush($currency);
+				$this->entityManager->persist($currency)->getUnitOfWork()->commit($currency);
 
 				$this->flashMessage('Měna ' . $currency->getName() . ' byla úspěšně vytvořena.', 'success');
 			} catch (EntityManagerException $e) {
@@ -303,7 +303,7 @@ class CurrencyInnerPackagePresenter extends BaseAdminPresenter
 				$this->editedCurrency->setRateModifyValue((float) str_replace(',', '.', $values->modifyValue));
 				$this->editedCurrency->setModifiedRate();
 
-				$this->entityManager->flush($this->editedCurrency);
+				$this->entityManager->getUnitOfWork()->commit($this->editedCurrency);
 
 				$this->flashMessage('Změny byly úspěšně uloženy', 'success');
 			} catch (EntityManagerException $e) {
